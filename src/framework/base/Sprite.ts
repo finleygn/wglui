@@ -1,76 +1,74 @@
 import Entity from "../core/Entity";
-import { createProgram, getUniformLocations, getAttributeLocations } from "../utils/Program";
+import Program from "../utils/Program";
 
 class Sprite extends Entity {
-  vertexBuffer: WebGLBuffer;
-  program: WebGLProgram;
-  locations: {
-    uniforms: Map<string, number>,
-    attributes: Map<string, number>
-  };
+  private static ready = false;
+  private static _vao: WebGLVertexArrayObject;
+  private static _program: Program;
 
-  constructor(gl: WebGL2RenderingContext) {
-    super();
-
-    this.program = createProgram(gl, {
-      vertex: `
-        attribute vec2 position;
-        uniform mat3 uModelMatrix;
+  private static build(gl: WebGL2RenderingContext) {
+    Sprite._program = new Program(gl,
+      `
+        attribute vec3 position;
+        uniform mat4 uModelMatrix;
 
         void main() {
-          gl_Position = vec4(
-            modelMatrix * vec3(position, 0),
-            0
+          gl_Position = uModelMatrix * vec4(
+            position, 1.0
           );
         }
       `,
-      fragment: `
+      `
         void main() {
-          gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+          gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
         }
       `
-    });
-
-    this.locations = {
-      uniforms: getUniformLocations(gl, this.program),
-      attributes: getAttributeLocations(gl, this.program),
-    }
+    );
 
     const geometry = new Float32Array([
-      0, 0,
-      0, 1,
-      1, 0,
-      1, 0,
-      0, 1,
-      1, 1,
+      -0, -0,
+      -0, 1.0,
+      1.0, 0,
     ]);
 
+    const vao = gl.createVertexArray();
+    if(!vao) {
+      throw new Error("Bad vao");
+    }
+    gl.bindVertexArray(vao);
+
     const buffer = gl.createBuffer();
+
     if(!buffer) {
       throw new Error("Bad buffer");
     }
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
     gl.bufferData(gl.ARRAY_BUFFER, geometry, gl.STATIC_DRAW);
-    this.vertexBuffer = buffer;
-  }
-  
-  public draw(gl: WebGL2RenderingContext) {
-    gl.useProgram(this.program);
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
-    gl.enableVertexAttribArray(this.locations.attributes.get("position") as number);
     gl.vertexAttribPointer(
-      this.locations.attributes.get("position") as number,
+      Sprite._program.attributes.get("position") as number,
       2,
       gl.FLOAT,
       false,
       0,
       0,
     );
+    gl.enableVertexAttribArray(Sprite._program.attributes.get("position") as number);
 
-    gl.uniformMatrix3fv(this.locations.uniforms.get("uModelMatrix") as number, false, this.localMatrix);
+    Sprite._vao = vao;
+    Sprite.ready = true;
+  }
+  
+  public draw(gl: WebGL2RenderingContext) {
+    if(!Sprite.ready) {
+      Sprite.build(gl);
+    }
 
-    gl.drawArrays(gl.TRIANGLES, 0, 3)
+    gl.useProgram(Sprite._program.compiled);
+    gl.bindVertexArray(Sprite._vao);
+
+    gl.uniformMatrix4fv(Sprite._program.uniforms.get("uModelMatrix") as number, false, this.worldMatrix);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
   }
 }
 

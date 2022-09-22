@@ -6,18 +6,21 @@ interface IRenderManagerConstruct {
   width: number;
   height: number;
   configure?: (gl: WebGL2RenderingContext) => void;
+  preRender?: (rm: RenderManager) => void;
 }
 
 class RenderManager {
   public gl: WebGL2RenderingContext;
+  private preRender?: IRenderManagerConstruct['preRender'];
 
   constructor({
     target,
     width,
     height,
-    configure
+    configure,
+    preRender,
   }: IRenderManagerConstruct) {
-    const context = target.getContext("webgl2");
+    const context = target.getContext("webgl2", { premultipliedAlpha:false, alpha: true, depth: true});
 
     if(!context) {
       throw new Error("WebGL2 not supported")
@@ -29,6 +32,10 @@ class RenderManager {
     if(configure) {
       configure(context);
     }
+
+    if(preRender) {
+      this.preRender = preRender;
+    }
   }
 
   public setSize(width: number, height: number) {
@@ -38,7 +45,9 @@ class RenderManager {
   }
 
   public render(root: SceneObject) {
-    this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+    if(this.preRender) {
+      this.preRender(this);
+    }
 
     root.recursiveUpdateMatrix();
     root.traverse(element => {

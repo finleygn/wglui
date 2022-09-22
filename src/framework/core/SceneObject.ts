@@ -1,21 +1,25 @@
 import Traversable from './Traversable';
-import Mat3 from "../math/Mat3";
+import Mat4 from "../math/Mat4";
 import Vec2 from "../math/Vec2";
 import ITransform from './interface/ITransform';
 
 class SceneObject extends Traversable {
   public transform: ITransform;
 
-  public localMatrix = Mat3.empty();
-  public worldMatrix = Mat3.empty();
+  public localMatrix = Mat4.empty();
+  public worldMatrix = Mat4.empty();
   
-  constructor(transform: ITransform = {
-    rotation: 0,
-    position: new Vec2(0, 0),
-    scale: new Vec2(0, 0),
-  }) {
+  constructor(params?: Partial<ITransform>) {
     super();
-    this.transform = transform;
+
+    Mat4.identity(this.localMatrix);
+    Mat4.identity(this.worldMatrix);
+
+    this.transform = {
+      rotation: params?.rotation || 0,
+      position: params?.position || new Vec2(0, 0),
+      scale: params?.scale || new Vec2(1, 1),
+    }
   }
 
   public recursiveUpdateMatrix() {
@@ -23,7 +27,7 @@ class SceneObject extends Traversable {
   }
 
   static updateMatrix(element: SceneObject): void {
-    Mat3.compose(
+    Mat4.compose(
       element.transform.rotation,
       element.transform.position,
       element.transform.scale,
@@ -32,10 +36,10 @@ class SceneObject extends Traversable {
 
     if(!element.parent) {
       // Create default world matrix for element without parent
-      Mat3.copy(element.worldMatrix, element.localMatrix);
+      Mat4.copy(element.worldMatrix, element.localMatrix);
     } else {
       // Update world matrix to extend parents
-      Mat3.multiply(element.parent.worldMatrix, element.localMatrix, element.worldMatrix)
+      Mat4.multiply(element.parent.worldMatrix, element.localMatrix, element.worldMatrix)
     }
   }
 }

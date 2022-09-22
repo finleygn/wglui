@@ -38,7 +38,7 @@ export function createProgram(gl: WebGL2RenderingContext, {
   gl.attachShader(program, fragmentShader);
   gl.linkProgram(program);
   if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-    throw new Error(gl.getProgramInfoLog(program));
+    throw new Error(gl.getProgramInfoLog(program) || undefined);
   }
 
   // Remove shader once linked
@@ -83,3 +83,21 @@ export function getAttributeLocations(gl: WebGL2RenderingContext, program: WebGL
 
   return locations;
 }
+
+class Program {
+  public compiled: WebGLProgram;
+  public uniforms: Map<string, WebGLUniformLocation>;
+  public attributes: Map<string, WebGLUniformLocation>;
+
+  constructor(gl: WebGL2RenderingContext, vertex: string, fragment: string) {
+    this.compiled = createProgram(gl, {
+      vertex: vertex,
+      fragment: fragment
+    });
+
+    this.uniforms = getUniformLocations(gl, this.compiled);
+    this.attributes = getUniformLocations(gl, this.compiled);
+  }
+}
+
+export default Program;

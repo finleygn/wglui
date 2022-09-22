@@ -1,6 +1,6 @@
 import SceneObject from "./SceneObject";
 
 // Alias for nicer naming...
-const Group = SceneObject;
+class Group extends SceneObject {};
 
 export default Group;

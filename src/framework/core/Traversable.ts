@@ -1,6 +1,6 @@
 class Traversable {
   public parent?: this;
-  public children = new Set<this>();
+  public children = new Array<this>();
 
   public setParent(parent?: this, flag = true) {
     // Clear self from old parent
@@ -19,8 +19,8 @@ class Traversable {
 
   public addChild(child: this, flag = true) {
     // Add child to list if it doesnt already exist
-    if(!this.children.has(child)) {
-      this.children.add(child);
+    if(!this.children.includes(child)) {
+      this.children.push(child);
     }
 
     // Notify child about new parent
@@ -31,8 +31,8 @@ class Traversable {
 
   public removeChild(child: this, flag = true) {
     // Remove child if exists
-    if(this.children.has(child)) {
-      this.children.delete(child);
+    if(this.children.includes(child)) {
+      this.children.filter(c => c !== child)
     }
 
     // Notify child about orphan status
