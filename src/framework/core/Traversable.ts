@@ -41,7 +41,7 @@ class Traversable {
     }
   }
 
-  public traverse(callback: (element: typeof this) => void) {
+  public traverse(callback: (element: this) => void) {
     callback(this);
     for (const child of this.children) {
       child.traverse(callback);
