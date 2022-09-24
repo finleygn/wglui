@@ -1,5 +1,5 @@
 import React from 'react';
-import Loop from '../core/Loop';
+import { Loop } from '@wglui/core';
 
 interface ReactGLContext {
   loop: Loop;

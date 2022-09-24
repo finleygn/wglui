@@ -1,6 +1,6 @@
 import Traversable from './Traversable';
-import Mat4 from "../math/Mat4";
-import Vec2 from "../math/Vec2";
+import Mat4 from "./math/Mat4";
+import Vec2 from "./math/Vec2";
 import ITransform from './interface/ITransform';
 
 class SceneObject extends Traversable {

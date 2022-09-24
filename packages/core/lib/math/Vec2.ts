@@ -1,4 +1,4 @@
-import Mat3 from "./Mat3";
+import Mat3 from "./Mat4";
 
 class Vec2 extends Array<number> {
   constructor(x: number, y: number) {

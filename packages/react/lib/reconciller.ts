@@ -1,41 +1,16 @@
 import Reconciler from 'react-reconciler';
 import { DefaultEventPriority } from 'react-reconciler/constants'
-import SceneObject from "../core/SceneObject";
-import ITransform from "../core/interface/ITransform";
-import Group from "../core/Group";
-import Sprite from '../base/Sprite';
+import { SceneObject, ITransform } from '@wglui/core';
+import jsxRegistry from './jsxRegistry';
+import { ElementTypes } from '../';
 
 type DiffSet = {
   memoized: { [key: string]: any }
   changes: [key: string, value: unknown, isEvent: boolean, keys: string[]][]
 }
 
-const componentMap = {
-  sceneObject: SceneObject,
-  group: Group,
-  sprite: Sprite,
-};
-
-type Args<T> = T extends new (...args: any) => any ? ConstructorParameters<T> : T
-
-interface NodeProps<T> {
-  children?: React.ReactNode;
-  ref?: React.Ref<T>;
-  key?: React.Key;
-}
-
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      sceneObject: NodeProps<SceneObject> & Args<typeof SceneObject>[0];
-      sprite: NodeProps<Sprite> & Args<typeof Sprite>[0];
-      group: NodeProps<Group> & Args<typeof Group>[0];
-    }
-  }
-}
-
 interface IHostConfig {
-  type: keyof typeof componentMap;
+  type: keyof ElementTypes;
   props: { [key: string]: unknown } & ITransform;
   container: SceneObject;
   instance: SceneObject;
@@ -78,8 +53,9 @@ const reconciler = Reconciler<
   supportsPersistence: false,
   supportsHydration: false,
   createInstance: (type, props) => {
-    if(componentMap[type]) {
-      return new componentMap[type](props);
+    console.log(jsxRegistry);
+    if(jsxRegistry[type]) {
+      return new jsxRegistry[type](props);
     }
     throw new Error("Given type is not a SceneObject");
   },
@@ -130,7 +106,7 @@ const reconciler = Reconciler<
   detachDeletedInstance: () => {},
   scheduleTimeout: setTimeout,
   cancelTimeout: clearTimeout,
-  preparePortalMount: () => new Group(),
+  preparePortalMount: () => new SceneObject(),
   hideInstance(instance) {
 
   },

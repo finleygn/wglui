@@ -1,0 +1,12 @@
+{
+  "name": "@wglui/core",
+  "version": "0.0.1",
+  "description": "Core of WGLUI",
+  "main": "index.js",
+  "author": "finleygn<finleygarton12@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "typescript": "^4.8.3"
+  }
+}

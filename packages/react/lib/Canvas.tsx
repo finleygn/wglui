@@ -1,8 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { ConcurrentRoot } from 'react-reconciler/constants';
-import Group from "../core/Group";
-import Loop from "../core/Loop";
-import RenderManager from "../core/Renderer";
+import { RenderManager, Loop, SceneObject } from "@wglui/core";
 import Provider from "./Provider";
 import reconciler from "./reconciller";
 
@@ -17,7 +15,7 @@ function Canvas({ children }: React.PropsWithChildren) {
   useEffect(() => {
     if(!ref.current) return;
 
-    const root = new Group();
+    const root = new SceneObject();
     const container = reconciler.createContainer(
       root,
       ConcurrentRoot,

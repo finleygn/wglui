@@ -1,0 +1,21 @@
+{
+  "name": "@wglui/react",
+  "version": "0.0.1",
+  "description": "React adapter for WGLUI",
+  "main": "index.js",
+  "author": "finleygn<finleygarton12@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "@wglui/core": "^0.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-reconciler": "^0.27.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "@types/react-reconciler": "^0.26.7",
+    "typescript": "^4.8.2"
+  }
+}

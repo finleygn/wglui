@@ -1,0 +1,16 @@
+{
+  "name": "@wglui/std",
+  "version": "0.0.1",
+  "description": "Standard library for WGLUI",
+  "main": "index.ts",
+  "author": "finleygn<finleygarton12@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "type": "module",
+  "devDependencies": {
+    "typescript": "^4.8.3"
+  },
+  "dependencies": {
+    "@wglui/core": "^0.0.1"
+  }
+}
