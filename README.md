@@ -12,6 +12,14 @@ Inspired by https://github.com/pmndrs/react-three-fiber, just without threejs.
 - Tools for managing geometry and programs + caching
 - Animation helpers
 
+## TODO
+
+- [] Canvas resolution settings (DPI, ASPECT RATIO)
+- [] General context provider
+- [] Pointer events & Button entity
+- [] Texture handling
+- [] API Improvements for defining new entities
+
 ## Usage (WIP)
 
 ### Install
