@@ -1,3 +1,4 @@
+import { extendRegistry } from '@wglui/react';
 import Group from './lib/Group';
 import Sprite from './lib/Sprite';
 
@@ -8,6 +9,10 @@ declare module '@wglui/react' {
   }
 }
 
-// right so basically because we arent using these exports directly they are getting tree-shaken out when they shouldnt be
+const register = () => {
+  extendRegistry("group", Group);
+  extendRegistry("sprite", Sprite);
+}
 
 export { Group, Sprite };
+export default register;

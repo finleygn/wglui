@@ -2,12 +2,11 @@ import React, { useRef } from 'react'
 import ReactDOM from 'react-dom/client'
 
 import { useFrame, Canvas } from '@wglui/react';
-import { type Sprite } from '@wglui/std';
+import register, { type Sprite } from '@wglui/std';
 import { Vec2 } from '@wglui/core';
 
 import './index.css'
 
-  
 function SpinningSprite({ speed, ...props }: React.PropsWithChildren<{speed: number} & Partial<JSX.IntrinsicElements["sprite"]>>) {
   const counter = useRef(0);
   const sprt = useRef<Sprite>(null);
@@ -22,6 +21,8 @@ function SpinningSprite({ speed, ...props }: React.PropsWithChildren<{speed: num
     <sprite ref={sprt} scale={new Vec2(1,1)} {...props} />
   );
 }
+
+register();
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
