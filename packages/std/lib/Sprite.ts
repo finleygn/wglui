@@ -1,5 +1,4 @@
 import { Entity, Program } from "@wglui/core";
-import { extendRegistry } from "@wglui/react";
 
 class Sprite extends Entity {
   private static ready = false;
@@ -72,5 +71,4 @@ class Sprite extends Entity {
   }
 }
 
-extendRegistry("group", Sprite);
 export default Sprite;
