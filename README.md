@@ -14,11 +14,11 @@ Inspired by https://github.com/pmndrs/react-three-fiber, just without threejs.
 
 ## TODO
 
-- [] Canvas resolution settings (DPI, ASPECT RATIO)
-- [] General context provider
-- [] Pointer events & Button entity
-- [] Texture handling
-- [] API Improvements for defining new entities
+- Canvas resolution settings (DPI, ASPECT RATIO)
+- General context provider
+- Pointer events & Button entity
+- Texture handling
+- API Improvements for defining new entities
 
 ## Usage (WIP)
 
