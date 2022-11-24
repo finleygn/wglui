@@ -4,7 +4,7 @@
 
 Inspired by https://github.com/pmndrs/react-three-fiber, just without threejs.
 
-## Goals/Features/IDK
+## Goals/Features
 
 - Exposes WebGL directly
 - Plain react for describing UI state (redux etc can be used)
@@ -14,8 +14,6 @@ Inspired by https://github.com/pmndrs/react-three-fiber, just without threejs.
 
 ## TODO
 
-- Canvas resolution settings (DPI, ASPECT RATIO)
-- General context provider
 - Pointer events & Button entity
 - Texture handling
 - API Improvements for defining new entities
